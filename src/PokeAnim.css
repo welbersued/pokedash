@@ -1,0 +1,15 @@
+.poke-animation {
+  transition: transform 0.5s ease;
+}
+
+.poke-animation.hovered {
+  transform: rotate(360deg) scale(1.3);
+}
+
+.poke-img {
+  transition: opacity 0.5s ease;
+}
+
+.poke-animation.hovered .poke-img {
+  opacity: 0.8;
+}

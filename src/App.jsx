@@ -4,20 +4,27 @@
 //Matrícula <01740937>
 //Atualização 27/05/2025 Centralizada a exibição do dashboard de cartas Pokémon e
 //Renderiza as cartas salvas, as cartas estáticas e o componente de pesquisa
+//Atualização em 28/05- Adição do NavBar e animação da pokebola
 
 import React from 'react';
-import CardSearch from './components/CardSearch';  
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Navbar from './components/Navbar';
+import CardSearch from './components/CardSearch';
 import CardStatic from './components/CardStatic';
-import SavedCards from './components/savedCardshere';
+import PokeAnim from './components/PokeAnim';
 
 function App() {
   return (
-    <div>
-      <h1>Pokedash - Welber Sued</h1>
-      <SavedCards />
-      <CardStatic />
-      <CardSearch />  
-    </div>
+    <Router>
+      <PokeAnim />
+      <Navbar />
+      <div className="container">
+        <Routes>
+          <Route path="/" element={<CardSearch />} />
+          <Route path="/salvas" element={<CardStatic />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 

@@ -1,11 +1,12 @@
-// Data: 26/05/2025, 07:00
+// Data: 26/05/2025
 // Nome: Welber Sued
 // Matrícula: <01740937>
 // Descrição: Através da criação do arquivo CardSearch.jsx, será possível buscar cartas via código. 
 // Confesso que foi meio complicado a questão da requisição da API
 // tentei instalar pelo PowerShell, mas não deu certo
-//comando fetch usado para puxar pela API pelo link
-//Atualizando a informação, a instalação do SDK não foi deu certo, por isso o fetch
+// comando fetch usado para puxar pela API pelo link
+// Atualizando a informação, a instalação do SDK não deu certo, por isso o fetch
+// Atualização 28/05 - Estilização e exibição de informações detalhadas das cartas em português
 
 import React, { useState } from 'react';
 
@@ -29,7 +30,6 @@ function CardSearch() {
       });
   };
 
-  // ✅ Função para salvar carta no localStorage
   const saveCard = (card) => {
     const savedCards = JSON.parse(localStorage.getItem('savedCards')) || [];
     const alreadySaved = savedCards.some(saved => saved.id === card.id);
@@ -45,30 +45,51 @@ function CardSearch() {
   };
 
   return (
-    <div>
-      <input
-        type="text"
-        placeholder="Digite o nome da carta"
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-      />
+    <div className="container my-5">
+      <h2 className="text-center mb-4">Buscar Cartas</h2>
 
-      <button onClick={handleSearch}>Buscar</button>
+      <div className="input-group mb-3 justify-content-center">
+        <input
+          type="text"
+          className="form-control w-50"
+          placeholder="Ex: Pikachu, Charizard..."
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+        />
+        <button className="btn btn-primary" onClick={handleSearch}>
+          Buscar
+        </button>
+      </div>
 
-      {error && <p>{error}</p>}
+      {error && <div className="alert alert-danger">{error}</div>}
 
-      <div>
-        {cards.length === 0 && <p>Nenhuma carta encontrada</p>}
-
-        {cards.map((card) => (
-          <div key={card.id}>
-            <img src={card.images.small} alt={card.name} />
-            <p>{card.name}</p>
-
-            {/* ✅ Botão de salvar aqui */}
-            <button onClick={() => saveCard(card)}>Salvar Carta</button>
+      <div className="row">
+        {cards.length === 0 ? (
+          <div className="text-center my-5">
+            <img 
+              src="https://cdn-icons-png.flaticon.com/512/188/188918.png" 
+              alt="Pokebola" 
+              width="100"
+              className="mb-3"
+            />
+            <h5>Bem-vindo ao Pokedash do Welber!</h5>
+            <p>Você pode usar a busca acima para encontrar suas cartas favoritas e salvar aquelas que você mais gostar!</p>
           </div>
-        ))}
+        ) : (
+          cards.map((card) => (
+            <div className="col-md-3 mb-4" key={card.id}>
+              <div className="card h-100">
+                <img src={card.images.small} className="card-img-top" alt={card.name} />
+                <div className="card-body">
+                  <h5 className="card-title">{card.name}</h5>
+                  <button className="btn btn-success btn-sm" onClick={() => saveCard(card)}>
+                    Salvar Carta
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))
+        )}
       </div>
     </div>
   );
