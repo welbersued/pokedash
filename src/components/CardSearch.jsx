@@ -9,6 +9,10 @@
 // Atualização 28/05 - Estilização e exibição de informações detalhadas das cartas em português
 
 import React, { useState } from 'react';
+import PokeAnim from './PokeAnim';
+
+
+
 
 function CardSearch() {
   const [query, setQuery] = useState('');
@@ -65,17 +69,9 @@ function CardSearch() {
 
       <div className="row">
         {cards.length === 0 ? (
-          <div className="text-center my-5">
-            <img 
-              src="https://cdn-icons-png.flaticon.com/512/188/188918.png" 
-              alt="Pokebola" 
-              width="100"
-              className="mb-3"
-            />
-            <h5>Bem-vindo ao Pokedash do Welber!</h5>
-            <p>Você pode usar a busca acima para encontrar suas cartas favoritas e salvar aquelas que você mais gostar!</p>
-          </div>
-        ) : (
+        <PokeAnim />
+              ) : (
+
           cards.map((card) => (
             <div className="col-md-3 mb-4" key={card.id}>
               <div className="card h-100">

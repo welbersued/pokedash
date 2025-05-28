@@ -29,7 +29,7 @@ function PokeAnim() {
         />
       </div>
       <h5>Bem-vindo ao Pokedash!</h5>
-      <p>busque conhecimento</p>
+      <p>Você pode usar a busca acima para encontrar suas cartas favoritas e salvar aquelas que você mais gostar!</p>
     </div>
   );
 }

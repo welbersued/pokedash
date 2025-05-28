@@ -16,7 +16,7 @@ import PokeAnim from './components/PokeAnim';
 function App() {
   return (
     <Router>
-      <PokeAnim />
+      
       <Navbar />
       <div className="container">
         <Routes>
