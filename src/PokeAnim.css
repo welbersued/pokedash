@@ -13,3 +13,11 @@
 .poke-animation.hovered .poke-img {
   opacity: 0.8;
 }
+
+.poke-animation {
+  cursor: pointer;
+  background: radial-gradient(circle, white 40%, #f44336 100%);
+  border-radius: 50%;
+  padding: 10px;
+}
+

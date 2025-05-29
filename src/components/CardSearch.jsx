@@ -7,22 +7,32 @@
 // comando fetch usado para puxar pela API pelo link
 // Atualizando a informação, a instalação do SDK não deu certo, por isso o fetch
 // Atualização 28/05 - Estilização e exibição de informações detalhadas das cartas em português
+// Atualização 29/05 - Corrigido problema de duplicação com SavedCards e ajustado layout
+// Adicionado busca automática ao digitar com useEffect
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PokeAnim from './PokeAnim';
-
-
-
+import './CardSearch.css';
 
 function CardSearch() {
   const [query, setQuery] = useState('');
   const [cards, setCards] = useState([]);
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-  const handleSearch = () => {
-    if (!query) return;
+  // ✅ Busca automática ao digitar
+  useEffect(() => {
+    if (query.length > 2) {
+      buscarCartas();
+    } else {
+      setCards([]);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [query]);
 
-    fetch(`https://api.pokemontcg.io/v2/cards?q=name:${query}`)
+  const buscarCartas = () => {
+    setLoading(true);
+    fetch(`https://api.pokemontcg.io/v2/cards?q=name:*${query}*`)
       .then(res => res.json())
       .then(data => {
         setCards(data.data);
@@ -31,7 +41,16 @@ function CardSearch() {
       .catch(() => {
         setError('Erro ao buscar cartas');
         setCards([]);
+      })
+      .finally(() => {
+        setLoading(false);
       });
+  };
+
+  const handleSearch = () => {
+    if (query.length > 2) {
+      buscarCartas();
+    }
   };
 
   const saveCard = (card) => {
@@ -59,26 +78,41 @@ function CardSearch() {
           placeholder="Ex: Pikachu, Charizard..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
+          onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
         />
         <button className="btn btn-primary" onClick={handleSearch}>
           Buscar
         </button>
       </div>
 
+      {loading && <div className="text-center mb-3">🔄 Carregando...</div>}
       {error && <div className="alert alert-danger">{error}</div>}
 
       <div className="row">
-        {cards.length === 0 ? (
-        <PokeAnim />
-              ) : (
-
+        {cards.length === 0 && !loading ? (
+          <PokeAnim />
+        ) : (
           cards.map((card) => (
-            <div className="col-md-3 mb-4" key={card.id}>
-              <div className="card h-100">
+            <div className="col-md-3 mb-4 fade-in" key={card.id}>
+              <div className="card h-100 shadow-sm">
                 <img src={card.images.small} className="card-img-top" alt={card.name} />
                 <div className="card-body">
                   <h5 className="card-title">{card.name}</h5>
-                  <button className="btn btn-success btn-sm" onClick={() => saveCard(card)}>
+
+                  <p className="card-text">
+                    <strong>Tipo:</strong> {card.types ? card.types.join(', ') : 'Desconhecido'}
+                  </p>
+                  <p className="card-text">
+                    <strong>Rareza:</strong> {card.rarity || 'Não informado'}
+                  </p>
+                  <p className="card-text">
+                    <strong>HP:</strong> {card.hp || 'N/A'}
+                  </p>
+
+                  <button
+                    className="btn btn-success btn-sm mt-2"
+                    onClick={() => saveCard(card)}
+                  >
                     Salvar Carta
                   </button>
                 </div>

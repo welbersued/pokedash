@@ -41,7 +41,7 @@ function CardStatic() {
           </div>
 
           <button className="btn btn-danger mt-3" onClick={clearSavedCards}>
-            Limpar todas as cartas
+            remover todas as cartas
           </button>
         </>
       )}

@@ -1,0 +1,14 @@
+/*Criação em 29/05- Animação ao pesquisar carta*/
+
+.fade-in {
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeInMove 0.5s forwards;
+}
+
+@keyframes fadeInMove {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
